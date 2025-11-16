@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Crear Etiqueta{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            
+            <div class="p-4 border border-primary rounded shadow-lg"> 
+
+                <h1 class="mb-4 text-center text-primary">Crear Etiqueta</h1>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button class="btn btn-primary" type="submit">Aceptar</button>
+                    <a href="{% url 'lista_etiquetas' %}" class="btn btn-secondary">Cancelar</a>
+                </form>
+                {% if error %}
+                <p style="color: red;">{{ error }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

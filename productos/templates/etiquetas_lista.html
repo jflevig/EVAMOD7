@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}Lista de Etiquetas{% endblock %}
+
+{% block content %}
+<h1>Lista de Etiquetas</h1>
+
+<a href="{% url 'crear_etiqueta' %}" class="btn btn-success mt-2 mb-4"> + Crear Nueva Etiqueta</a>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Etiqueta</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for etiqueta in etiquetas %}
+        <tr>
+            <td><a class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="{% url 'filtro_etiquetas' etiqueta.pk %}">{{ etiqueta.nombre }}</a></td>
+            <td>
+                <a href="{% url 'editar_etiqueta' etiqueta.pk %}" title="Editar"><i class="fa-solid fa-pen-to-square text-primary mx-2"></i></a>
+                <a href="{% url 'eliminar_etiqueta' etiqueta.pk %}" title="Eliminar"><i class="fa-solid fa-trash text-danger"></i></a>
+            </td>
+            {% empty %}
+            <tr>
+                <td colspan="4" class="text-center">¡No hay etiquetas registradas!</td>
+            </tr>
+            {% endfor %} 
+        </tr>
+    </tbody>
+
+</table>
+
+{% endblock %}

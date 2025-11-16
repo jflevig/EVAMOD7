@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Lista de Productos{% endblock %}
+
+{% block content %}
+<p>Categoria: {{ producto.categoria }}</p>
+<h1>{{ producto.nombre }}</h1>
+<h2>${{ producto.precio }}</h2>
+<h3>Descripción</h3>
+<p>{{ producto.descripcion }}</p>
+{% for etiqueta in producto.etiquetas.all %}
+<span class="badge text-bg-primary">{{ etiqueta }}</span>
+{% endfor %}
+<h4>Detalles</h4>
+<p>{% if producto.detalle.color %}Color: {{ producto.detalle.color }} {% endif %}</p>
+<p>{% if producto.detalle.tamaño %}Tamaño: {{ producto.detalle.tamaño }} {% endif %}</p>
+<p>{% if producto.detalle.peso %}Peso: {{ producto.detalle.peso }} {% endif %}</p>
+
+{% endblock %}
