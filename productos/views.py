@@ -3,16 +3,18 @@ from django.views.generic import TemplateView, ListView, CreateView, DetailView,
 from .models import Producto, Categoria, Etiqueta, Detalle
 from .forms import ProductoForm, CategoriaForm, EtiquetaForm, DetalleForm
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 
 class HomeView(TemplateView):
     template_name = 'index.html'
 
-class ProductoListView(ListView):
+class ProductoListView(LoginRequiredMixin, ListView):
     model = Producto
     template_name = 'productos_lista.html'
     context_object_name = 'productos'
 
-class ProductoCreateView(CreateView):
+class ProductoCreateView(LoginRequiredMixin, CreateView):
     model = Producto
     form_class = ProductoForm
     template_name = 'productos_crear.html'
@@ -38,12 +40,12 @@ class ProductoCreateView(CreateView):
             return self.form_invalid(form)
 
 
-class ProductoDetailView(DetailView):
+class ProductoDetailView(LoginRequiredMixin, DetailView):
     model = Producto
     template_name = 'productos_detalle.html'
     context_object_name = 'producto'
 
-class ProductoUpdateView(UpdateView):
+class ProductoUpdateView(LoginRequiredMixin, UpdateView):
     model = Producto
     form_class = ProductoForm
     template_name = 'productos_editar.html'
@@ -78,60 +80,62 @@ class ProductoUpdateView(UpdateView):
         else:
             return self.form_invalid(form)
 
-class ProductoDeleteView(DeleteView):
+class ProductoDeleteView(LoginRequiredMixin, DeleteView):
     model = Producto
     template_name = 'productos_eliminar.html'
     success_url = reverse_lazy('lista_productos')
 
-class CategoriaListView(ListView):
+class CategoriaListView(LoginRequiredMixin, ListView):
     model = Categoria
     template_name = 'categorias_lista.html'
     context_object_name = 'categorias'
 
-class CategoriaCreateView(CreateView):
+class CategoriaCreateView(LoginRequiredMixin, CreateView):
     model = Categoria
     form_class = CategoriaForm
     template_name = 'categorias_crear.html'
     success_url = reverse_lazy('lista_categorias')
 
-class CategoriaUpdateView(UpdateView):
+class CategoriaUpdateView(LoginRequiredMixin, UpdateView):
     model = Categoria
     form_class = CategoriaForm
     template_name = 'categorias_editar.html'
     success_url = reverse_lazy('lista_categorias')
 
-class CategoriaDeleteView(DeleteView):
+class CategoriaDeleteView(LoginRequiredMixin, DeleteView):
     model = Categoria
     template_name = 'categorias_eliminar.html'
     success_url = reverse_lazy('lista_categorias')
 
+@login_required
 def filtro_categorias(request, pk):
     categoria = Categoria.objects.get(id=pk)
     productos_filtrados = categoria.productos.all()
     return render(request, 'productos_lista.html', {'productos': productos_filtrados})
 
-class EtiquetaListView(ListView):
+class EtiquetaListView(LoginRequiredMixin, ListView):
     model = Etiqueta
     template_name = 'etiquetas_lista.html'
     context_object_name = 'etiquetas'
 
-class EtiquetaCreateView(CreateView):
+class EtiquetaCreateView(LoginRequiredMixin, CreateView):
     model = Etiqueta
     form_class = EtiquetaForm
     template_name = 'etiquetas_crear.html'
     success_url = reverse_lazy('lista_etiquetas')
 
-class EtiquetaUpdateView(UpdateView):
+class EtiquetaUpdateView(LoginRequiredMixin, UpdateView):
     model = Etiqueta
     form_class = EtiquetaForm
     template_name = 'etiquetas_editar.html'
     success_url = reverse_lazy('lista_etiquetas')
 
-class EtiquetaDeleteView(DeleteView):
+class EtiquetaDeleteView(LoginRequiredMixin, DeleteView):
     model = Etiqueta
     template_name = 'etiquetas_eliminar.html'
     success_url = reverse_lazy('lista_etiquetas')
 
+@login_required
 def filtro_etiquetas(request, pk):
     etiqueta = Etiqueta.objects.get(id=pk)
     productos_filtrados = etiqueta.productos.all()
