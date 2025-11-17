@@ -3,5 +3,20 @@
 {% block title %}Home | Gestor de Productos{% endblock %}
 
 {% block content %}
-<h1>Bienvenido</h1>
+{% if user.is_authenticated %}
+<h1>Bienvenido {{ user.username }}</h1>
+
+<p>Para gestionar los productos, categorias o etiquetas accede a:</p>
+<ul>
+    <li><a href="{% url 'lista_productos' %}">Lista de Productos</a></li>
+    <li><a href="{% url 'lista_categorias' %}">Lista de Categorias</a></li>
+    <li><a href="{% url 'lista_etiquetas' %}">Lista de Etiquetas</a></li>  
+</ul>
+{% else %}
+<h1>Bienvenido al Gestor de Productos</h1>
+
+<p>Para acceder a la aplicación <a href="{% url 'login' %}">Inicia Sesión.</a></p>
+
+<p>Si no tienes cuenta <a href="{% url 'registro' %}">Registrate</a>.</p>
+{% endif %}
 {% endblock %}
